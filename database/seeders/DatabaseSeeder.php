@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
-            'nama' => 'Sopian Ajir',
+            'nama' => 'Sopian Aji',
             'email' => 'sopian4ji@gmail.com',
             'role' => '0',
             'status' => 1,
