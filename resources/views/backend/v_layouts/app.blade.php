@@ -53,14 +53,13 @@
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{ asset('backend/images/icon_univ_bsi.png') }}" alt="homepage" class="light-logo" width="48" height="48" />  
+                            <img src="{{ asset('backend/images/icon_univ_bsi.png') }}" alt="homepage" class="light-logo" />  
                         </b>
                         <!--End Logo icon -->
                          <!-- Logo text -->
                         <span class="logo-text">
                              <!-- dark Logo text -->
-                             <!--<img src="{{asset('backend/images/logo-text.png') }}" alt="homepage" class="light-logo" /> -->
-                             <h4><span style="color: blue">Project</span> Toko Online</h4>
+                             <img src="{{asset('backend/images/logo_text.png') }}" alt="homepage" class="light-logo" /> 
                         </span>
                         <!-- Logo icon -->
                         <!-- <b class="logo-icon"> -->
@@ -289,6 +288,42 @@
     <script src="{{ asset('backend/extra-libs/multicheck/datatable-checkbox-init.js') }}"></script>
     <script src="{{ asset('backend/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
     <script src="{{ asset('backend/extra-libs/DataTables/datatables.min.js') }}"></script>
+    
+    {{-- Jquery Untuk Sweet Alert --}}
+    <script src="{{ asset('sweetalert/sweetalert2.all.min.js') }}"></script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                test: "{{ session('success') }}"
+            })
+        </script>
+    @endif
+    <script type="text/javascript">
+        $('.show_confirm').click(function(event) {
+            var form = $(this).closest("form");
+            var konfdelete = $(this).data("konf-delete");
+            event.preventDefault();
+            Swal.fire({
+                title: "Konfirmasi Hapus Data",
+                html: "User <strong>" + konfdelete + "</strong> tidak dapat dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085D6",
+                cancelButtonColor: "#D33",
+                confirmButtonText: "Ya, dihapus",
+                cancelButtonText: "Batal" 
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    Swal.fire('Berhasil dihapus!', 'Data berhasil terhapus', 'success')
+                    .then(() => {
+                        form.submit();
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         /****************************************
          *       Basic Table                   *

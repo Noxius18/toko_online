@@ -19,9 +19,9 @@
                         Aplikasi Toko Online dengan hak akses yang anda miliki sebagai 
                         <b>
                             @if (Auth::user()->role == 0)
-                            Super Admin
-                            @elseif(Auth::user()->role == 1)
                             Admin
+                            @elseif(Auth::user()->role == 1)
+                            Super Admin
                             @endif
                         </b>
                         Ini adalah halaman utama dari aplikasi Web Programming. Studi Kasus Toko Online
