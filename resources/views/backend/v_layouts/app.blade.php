@@ -124,7 +124,9 @@
                                data-toggle="dropdown" 
                                aria-haspopup="true" 
                                aria-expanded="false">
-                                <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31">
+                                @if (Auth::user()->foto)
+                                    <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" alt="user" class="rounded-circle" width="31">    
+                                @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 <a class="dropdown-item" href="javascript:void(0)">
