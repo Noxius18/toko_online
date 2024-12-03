@@ -298,7 +298,7 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil',
-                test: "{{ session('success') }}"
+                text: "{{ session('success') }}"
             })
         </script>
     @endif
@@ -309,7 +309,7 @@
             event.preventDefault();
             Swal.fire({
                 title: "Konfirmasi Hapus Data",
-                html: "User <strong>" + konfdelete + "</strong> tidak dapat dikembalikan!",
+                html: "Data <strong>" + konfdelete + "</strong> tidak dapat dikembalikan!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085D6",

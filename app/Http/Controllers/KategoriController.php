@@ -24,7 +24,9 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.v_kategori.create', [
+            'judul' => 'Kategori'
+        ]);
     }
 
     /**
@@ -32,7 +34,11 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'nama_kategori' => 'required|max:255|unique:kategori',
+        ]);
+        Kategori::create($validateData);
+        return redirect()->route('backend.kategori.index')->with('success', 'Data berhasil tersimpan');
     }
 
     /**
@@ -48,7 +54,11 @@ class KategoriController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $kategori = Kategori::find($id);
+        return view('backend.v_kategori.edit', [
+            'judul' => 'Edit Kategori',
+            'edit' => $kategori
+        ]);
     }
 
     /**
@@ -56,7 +66,12 @@ class KategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $rules = [
+            'nama_kategori' => 'required|max:255|unique:kategori,nama_kategori,' . $id,
+        ];
+        $validateData = $request->validate($rules);
+        Kategori::where('id', $id)->update($validateData);
+        return redirect()->route('backend.kategori.index')->with('success', 'Data berhasil di-update');
     }
 
     /**
@@ -64,6 +79,8 @@ class KategoriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $list = kategori::findOrFail($id);
+        $list->delete();
+        return redirect()->route('backend.kategori.index')->with('success', 'Data berhasil dihapus');
     }
 }
