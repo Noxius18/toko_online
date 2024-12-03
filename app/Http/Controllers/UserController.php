@@ -104,7 +104,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('backend.v_user.edit', [
+            'judul' => 'Edit User',
+            'edit' => $user
+        ]);
     }
 
     /**
@@ -112,7 +116,41 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $rules = [
+            'nama' => 'required|max:255',
+            'role' => 'required',
+            'status' => 'required',
+            'hp' => 'required|min:10|max:13',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+        ];
+        $messages = [
+            'foto.image' => 'Format gambar harap menggunakan eksetensi: jpeg, png, jpg, gif, svg',
+            'foto.max' => 'Maksimal ukuran gambar adalah 1024 KB'
+        ];
+
+        if($request->email != $user->email) {
+            $rules['email'] = 'required|max:255|email|unique:user';
+        }
+        $validatedData = $request->validate($rules, $messages);
+
+        if($request->file('foto')) {
+            if($user->foto){
+                $pathFotoLama = public_path('storage/img-user') . $user -> foto;
+                if(file_exists($pathFotoLama)) {
+                    unlink($pathFotoLama);
+                }
+            }
+            $file = $request->file('foto');
+            $extension = $file->getClientOriginalExtension();
+            $originalFileName = date('YmdHis') . '_' . uniqid() . '.' . $extension;
+            $directory = 'storage/img-user/';
+            ImageHelper::uploadAndResize($file, $directory, $originalFileName, 385, 400);
+            $validatedData['foto'] = $originalFileName;
+        }
+
+        $user->update($validatedData);
+        return redirect()->route('backend.user.index')->with('success', 'Data berhasil diubah');
     }
 
     /**
