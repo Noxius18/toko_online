@@ -53,14 +53,13 @@
                         <b class="logo-icon p-l-10">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{ asset('backend/images/icon_univ_bsi.png') }}" alt="homepage" class="light-logo" width="48" height="48" />  
+                            <img src="{{ asset('backend/images/icon_univ_bsi.png') }}" alt="homepage" class="light-logo" />  
                         </b>
                         <!--End Logo icon -->
                          <!-- Logo text -->
                         <span class="logo-text">
                              <!-- dark Logo text -->
-                             <!--<img src="{{asset('backend/images/logo-text.png') }}" alt="homepage" class="light-logo" /> -->
-                             <h4><span style="color: blue">Project</span> Toko Online</h4>
+                             <img src="{{asset('backend/images/logo_text.png') }}" alt="homepage" class="light-logo" /> 
                         </span>
                         <!-- Logo icon -->
                         <!-- <b class="logo-icon"> -->
@@ -125,7 +124,9 @@
                                data-toggle="dropdown" 
                                aria-haspopup="true" 
                                aria-expanded="false">
-                                <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31">
+                                @if (Auth::user()->foto)
+                                    <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" alt="user" class="rounded-circle" width="31">    
+                                @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 <a class="dropdown-item" href="javascript:void(0)">
@@ -238,47 +239,6 @@
                 <!-- ============================================================== -->
                 @yield('content');
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Basic Datatable</h5>
-                                <div class="table-responsive">
-                                    <table id="zero_config" class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>63</td>
-                                                <td>2011/07/25</td>
-                                                <td>$170,750</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -330,6 +290,42 @@
     <script src="{{ asset('backend/extra-libs/multicheck/datatable-checkbox-init.js') }}"></script>
     <script src="{{ asset('backend/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
     <script src="{{ asset('backend/extra-libs/DataTables/datatables.min.js') }}"></script>
+    
+    {{-- Jquery Untuk Sweet Alert --}}
+    <script src="{{ asset('sweetalert/sweetalert2.all.min.js') }}"></script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                test: "{{ session('success') }}"
+            })
+        </script>
+    @endif
+    <script type="text/javascript">
+        $('.show_confirm').click(function(event) {
+            var form = $(this).closest("form");
+            var konfdelete = $(this).data("konf-delete");
+            event.preventDefault();
+            Swal.fire({
+                title: "Konfirmasi Hapus Data",
+                html: "User <strong>" + konfdelete + "</strong> tidak dapat dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085D6",
+                cancelButtonColor: "#D33",
+                confirmButtonText: "Ya, dihapus",
+                cancelButtonText: "Batal" 
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    Swal.fire('Berhasil dihapus!', 'Data berhasil terhapus', 'success')
+                    .then(() => {
+                        form.submit();
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         /****************************************
          *       Basic Table                   *
