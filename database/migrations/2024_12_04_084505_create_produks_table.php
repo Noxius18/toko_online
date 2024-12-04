@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->tinyInteger('status');
             $table->string('nama_produk');
-            $table->string('detail_produk');
+            $table->string('detail');
             $table->double('harga');
             $table->integer('stok');
             $table->float('berat');

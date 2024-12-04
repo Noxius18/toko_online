@@ -13,10 +13,10 @@ class Produk extends Model
     public $timestamps = true;
 
     public function kategori() {
-        return $this->belongsTo(Kategori::class, 'id_kategori', 'id');
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 
     public function user() { 
-        return $this->belongsTo(User::class, 'id_user', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
