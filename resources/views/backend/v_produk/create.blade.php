@@ -13,7 +13,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Foto</label>
-                                    <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror">
+                                    <img class="foto-preview">
+                                    <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" onchange="previewFoto()">
                                     @error('foto')
                                         <div class="invalid-feedback alert-danger">{{ $message }}</div>
                                     @enderror
