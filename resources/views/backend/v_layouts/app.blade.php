@@ -208,7 +208,7 @@
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a href="error-404.html" class="sidebar-link">
+                                    <a href="{{ route('backend.laporan.formproduk') }}" class="sidebar-link">
                                         <i class="mdi mdi-chevron-right"></i>
                                         <span class="hide-menu">Produk</span>
                                     </a>
