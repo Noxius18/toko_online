@@ -7,6 +7,7 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Foto;
 
 class ProdukController extends Controller
 {
@@ -65,15 +66,15 @@ class ProdukController extends Controller
             $validateData['foto'] = $fileName;
 
             // Thumbnail Ukuran Large
-            $thumbnailLg = 'thumb_lg' . $originalFileName;
+            $thumbnailLg = 'thumb_lg_' . $originalFileName;
             ImageHelper::uploadAndResize($file, $directory, $thumbnailLg, 800, null);
 
             // Thumbnail Ukuran Medium
-            $thumbailMd = 'thumb_md' . $originalFileName;
+            $thumbailMd = 'thumb_md_' . $originalFileName;
             ImageHelper::uploadAndResize($file, $directory, $thumbailMd, 500, 519);
 
             // Thumbnail Ukuran Small
-            $thumbnailSm = 'thumb_sm' . $originalFileName;
+            $thumbnailSm = 'thumb_sm_' . $originalFileName;
             ImageHelper::uploadAndResize($file, $directory, $thumbnailSm, 100, 110);
         }
 
@@ -88,7 +89,14 @@ class ProdukController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $produk = Produk::with('fotoProduk')->findOrFail($id);
+        $kategori = Kategori::orderBy('nama_kategori', 'asc')->get();
+
+        return view('backend.v_produk.show', [
+            'judul' => 'Detail Produk',
+            'show' => $produk,
+            'kategori' => $kategori
+        ]);
     }
 
     /**
@@ -96,7 +104,7 @@ class ProdukController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -113,5 +121,54 @@ class ProdukController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function storeFoto(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'produk_id' => 'required|exists:produk,id',
+            'foto_produk.*' => 'image|mimes:jpeg,jpg,png,gif|file|max:1024',
+        ]);
+
+        if ($request->hasFile('foto_produk')) {
+            foreach ($request->file('foto_produk') as $file) {
+                // Buat nama file yang unik
+                $extension = $file->getClientOriginalExtension();
+                $filename = date('YmdHis') . '_' . uniqid() . '.' . $extension;
+                $directory = 'storage/img-produk/';
+
+                // Simpan dan resize gambar menggunakan ImageHelper
+                ImageHelper::uploadAndResize($file, $directory, $filename, 800, null);
+
+                // Simpan data ke database
+                Foto::create([
+                    'produk_id' => $request->produk_id,
+                    'foto' => $filename,
+                ]);
+            }
+        }
+
+        return redirect()->route('backend.produk.show', $request->produk_id)
+            ->with('success', 'Foto berhasil ditambahkan.');
+    }
+
+// Method untuk menghapus foto
+    public function destroyFoto($id)
+    {
+        $foto = Foto::findOrFail($id);
+        $produkId = $foto->produk_id;
+
+        // Hapus file gambar dari storage
+        $imagePath = public_path('storage/img-produk/') . $foto->foto;
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Hapus record dari database
+        $foto->delete();
+
+        return redirect()->route('backend.produk.show', $produkId)
+            ->with('success', 'Foto berhasil dihapus.');
     }
 }

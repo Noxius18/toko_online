@@ -29,3 +29,7 @@ Route::resource('backend/kategori', KategoriController::class, ['as' => 'backend
 
 // End-Point untuk Route Produk
 Route::resource('backend/produk', ProdukController::class, ['as' => 'backend'])->middleware('auth');
+
+// End-Point untuk Route Foto Produk
+Route::post('foto_produk/store', [ProdukController::class, 'storeFoto'])->name('backend.foto_produk.store')->middleware('auth');
+Route::delete('foto-produk/{id}', [ProdukController::class, 'destroyFoto'])->name('backend.foto_produk.destroy')->middleware('auth');
