@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Detail</label><br>
-                                    <textarea name="detail" class="form-control @error('detail') is-invalid @enderror">{{ old('detail') }}</textarea>
+                                    <textarea name="detail" class="form-control @error('detail') is-invalid @enderror" id="ckeditor">{{ old('detail') }}</textarea>
                                     @error('detail')
                                         <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
                                     @enderror

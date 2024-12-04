@@ -340,6 +340,14 @@
             }
         }
     </script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#ckeditor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <script>
         /****************************************
          *       Basic Table                   *
