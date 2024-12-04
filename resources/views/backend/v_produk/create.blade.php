@@ -13,7 +13,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Foto</label>
-                                    <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror">
+                                    <img class="foto-preview">
+                                    <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" onchange="previewFoto()">
                                     @error('foto')
                                         <div class="invalid-feedback alert-danger">{{ $message }}</div>
                                     @enderror
@@ -41,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Detail</label><br>
-                                    <textarea name="detail" class="form-control @error('detail') is-invalid @enderror">{{ old('detail') }}</textarea>
+                                    <textarea name="detail" class="form-control @error('detail') is-invalid @enderror" id="ckeditor">{{ old('detail') }}</textarea>
                                     @error('detail')
                                         <span class="invalid-feedback alert-danger" role="alert">{{ $message }}</span>
                                     @enderror

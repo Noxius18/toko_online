@@ -10,7 +10,7 @@
         </a>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"> {{ $judul }} </h5>
+                <h5 class="card-title">{{ $judul }}</h5>
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
                         <thead>
@@ -43,6 +43,11 @@
                                         <a href="{{ route('backend.produk.edit', $row->id) }}" title="Ubah Data">
                                             <button type="button" class="btn btn-cyan btn-sm">
                                                 <i class="far fa-edit"></i> Ubah
+                                            </button>
+                                        </a>
+                                        <a href="{{ route('backend.produk.show', $row->id) }}" title="Ubah Data">
+                                            <button type="button" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-plus"></i> Gambar
                                             </button>
                                         </a>
                                         <form method="POST" action="{{ route('backend.produk.destroy', $row->id) }}" style="display: inline-block;">
