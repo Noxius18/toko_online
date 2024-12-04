@@ -120,7 +120,44 @@ class ProdukController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $produk = Produk::findOrFail($id);
+        $directory = public_path('storage/img-produk');
+
+        if($produk->foto) {
+            $pathFotoLama = $directory . $produk->foto;
+            if(file_exists($pathFotoLama)) {
+                unlink($pathFotoLama);
+            }
+
+            $thumbnailLg = $directory . 'thumb_lg_' . $produk->foto;
+            if(file_exists($thumbnailLg)) {
+                unlink($thumbnailLg);
+            }
+
+            $thumbnailMd = $directory . 'thumb_md_' . $produk->foto;
+            if(file_exists($thumbnailMd)) {
+                unlink($thumbnailMd);
+            }
+
+            $thumbnailSm = $directory . 'thumb_sm_' . $produk->foto;
+            if(file_exists($thumbnailSm)) {
+                unlink($thumbnailSm);
+            }
+
+            
+        }
+        $fotoProduks = Foto::where('produk_id', $id)->get();
+        foreach($fotoProduks as $fotoProduk) {
+            $pathFoto = $directory . $fotoProduk->foto;
+            if(file_exists($pathFoto)){
+                unlink($pathFoto);
+            }
+            $fotoProduk->delete();
+        }
+
+        $produk->delete();
+
+        return redirect()->route('backend.produk.index')->with('success', 'Data berhasil dihapus!');
     }
 
     public function storeFoto(Request $request)
