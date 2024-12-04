@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="id">
 
 <head>
     <meta charset="utf-8">
@@ -188,7 +188,7 @@
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a href="icon-fontawesome.html" class="sidebar-link">
+                                    <a href="{{ route('backend.produk.index') }}" class="sidebar-link">
                                         <i class="mdi mdi-chevron-right"></i>
                                         <span class="hide-menu">Produk</span>
                                     </a>

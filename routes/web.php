@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BerandaController;
@@ -25,3 +26,6 @@ Route::resource('backend/user', UserController::class, ['as' => 'backend'])->mid
 
 // End-Point untuk Route Kategori
 Route::resource('backend/kategori', KategoriController::class, ['as' => 'backend'])->middleware('auth');
+
+// End-Point untuk Route Produk
+Route::resource('backend/produk', ProdukController::class, ['as' => 'backend'])->middleware('auth');
