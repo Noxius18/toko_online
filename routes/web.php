@@ -16,7 +16,7 @@ Route::get('/', function () {
 Route::get('backend/beranda',[BerandaController::class, 'berandaController'])
 ->name('backend.beranda')->middleware('auth');
 
-// Halaman Login
+// End-Point untuk halaman Login
 Route::get('backend/login', [LoginController::class, 'loginBackend'])->name('backend.login');
 Route::post('backend/login', [LoginController::class, 'authenticateBackend'])->name('backend.login');
 Route::post('backend/logout', [LoginController::class, 'logoutBackend'])->name('backend.logout');
